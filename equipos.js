@@ -1,10 +1,10 @@
-// ============================================================
+
 //  DATOS DE LOS EQUIPOS
 //  Para agregar un equipo, copia un bloque y cambia el ID.
 //  El ID es lo que va en la URL:  index.html?id=LLEN-01
 //  "foto" puede ser un archivo en /img o una URL completa.
 //  "pasoAM" va de 0 a 7.
-// ============================================================
+
 window.EQUIPOS = {
   "LLEN-01": {
     foto: "img/llen-01.svg",
