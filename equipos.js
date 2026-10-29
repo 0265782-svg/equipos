@@ -18,7 +18,7 @@ window.EQUIPOS = {
     }
   },
    "MOTOR2": {
-    foto: "img/MOTOR2.svg",
+    foto: "img/MOTOR2.webp",
     nombre: { es: "Motor redondo 3", en: "Round motor" },
     dueno: "Raúl Campos",
     area: { es: "Making", en: "Making" },
