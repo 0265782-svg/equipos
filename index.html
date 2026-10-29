@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ficha de equipo</title>
+<style>
+  :root { --bg:#f4f6f9; --card:#fff; --text:#1d2430; --muted:#667085; --accent:#1f6feb; --line:#e3e7ee; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f141b; --card:#18202b; --text:#e8edf3; --muted:#9aa6b5; --accent:#4c8dff; --line:#2a3442; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); }
+  header { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; max-width:640px; margin:0 auto; }
+  header h1 { font-size:15px; margin:0; color:var(--muted); font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+  .lang { display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
+  .lang button { border:0; background:transparent; color:var(--muted); padding:6px 14px; font-weight:600; cursor:pointer; }
+  .lang button.on { background:var(--accent); color:#fff; }
+  main { max-width:640px; margin:0 auto; padding:0 16px 32px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .card img { width:100%; aspect-ratio:16/10; object-fit:cover; display:block; background:var(--line); }
+  .body { padding:18px; }
+  .id { font-family:ui-monospace,Menlo,monospace; font-size:13px; color:var(--accent); }
+  h2 { margin:4px 0 14px; font-size:24px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+  .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+  .value { font-size:16px; font-weight:600; margin-top:2px; }
+  .steps { display:flex; gap:4px; margin:6px 0 4px; }
+  .steps span { flex:1; height:10px; border-radius:4px; background:var(--line); }
+  .steps span.done { background:var(--accent); }
+  .desc { line-height:1.5; margin:0; }
+  .section { border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
+  .list a { display:block; padding:14px 16px; border-bottom:1px solid var(--line); color:var(--text); text-decoration:none; }
+  .list a:last-child { border-bottom:0; }
+  .list small { color:var(--muted); display:block; }
+  .error { padding:24px; text-align:center; color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="titulo">Ficha de equipo</h1>
+  <div class="lang">
+    <button data-l="es">ES</button><button data-l="en">EN</button>
+  </div>
+</header>
+<main id="app"></main>
+
+<script src="equipos.js"></script>
+<script>
+const T = {
+  es: { titulo:"Ficha de equipo", dueno:"Dueño del equipo", area:"Área", paso:"Paso AM", desc:"Descripción",
+        de:"de", noExiste:"No se encontró el equipo", lista:"Equipos registrados" },
+  en: { titulo:"Equipment card", dueno:"Equipment owner", area:"Area", paso:"AM Step", desc:"Description",
+        de:"of", noExiste:"Equipment not found", lista:"Registered equipment" }
+};
+const params = new URLSearchParams(location.search);
+const id = params.get("id");
+let lang = params.get("lang") || localStorage.getItem("lang") ||
+           (navigator.language || "es").slice(0,2);
+if (!T[lang]) lang = "es";
+
+const txt = v => (v && typeof v === "object") ? (v[lang] || v.es || "") : (v ?? "");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function render() {
+  const t = T[lang], app = document.getElementById("app");
+  document.documentElement.lang = lang;
+  document.getElementById("titulo").textContent = t.titulo;
+  document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+
+  // Sin ID: muestra la lista de equipos
+  if (!id) {
+    app.innerHTML = `<div class="card list"><div class="body"><h2>${t.lista}</h2></div>` +
+      Object.entries(window.EQUIPOS).map(([k,e]) =>
+        `<a href="?id=${encodeURIComponent(k)}&lang=${lang}"><b>${esc(txt(e.nombre))}</b><small>${esc(k)} · ${esc(e.dueno)}</small></a>`
+      ).join("") + `</div>`;
+    document.title = t.lista;
+    return;
+  }
+
+  const e = window.EQUIPOS[id];
+  if (!e) { app.innerHTML = `<div class="card error">${t.noExiste}: <b>${esc(id)}</b></div>`; return; }
+
+  const paso = Math.max(0, Math.min(7, Number(e.pasoAM) || 0));
+  const barras = Array.from({length:7}, (_,i) => `<span class="${i < paso ? "done" : ""}"></span>`).join("");
+  document.title = `${txt(e.nombre)} · ${id}`;
+  app.innerHTML = `
+    <div class="card">
+      ${e.foto ? `<img src="${esc(e.foto)}" alt="${esc(txt(e.nombre))}">` : ""}
+      <div class="body">
+        <div class="id">${esc(id)}</div>
+        <h2>${esc(txt(e.nombre))}</h2>
+        <div class="grid">
+          <div><div class="label">${t.dueno}</div><div class="value">${esc(e.dueno)}</div></div>
+          <div><div class="label">${t.area}</div><div class="value">${esc(txt(e.area)) || "—"}</div></div>
+        </div>
+        <div class="label">${t.paso}</div>
+        <div class="steps">${barras}</div>
+        <div class="value">${paso} ${t.de} 7</div>
+        <div class="section">
+          <div class="label">${t.desc}</div>
+          <p class="desc">${esc(txt(e.descripcion))}</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+document.querySelectorAll(".lang button").forEach(b => b.onclick = () => {
+  lang = b.dataset.l;
+  try { localStorage.setItem("lang", lang); } catch {}
+  const p = new URLSearchParams(location.search); p.set("lang", lang);
+  history.replaceState(null, "", "?" + p.toString());
+  render();
+});
+render();
+</script>
+</body>
+</html>
