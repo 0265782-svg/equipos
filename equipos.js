@@ -17,6 +17,17 @@ window.EQUIPOS = {
       en: "12-nozzle volumetric filler. Check hopper level and nozzle leaks at the start of every shift."
     }
   },
+   "MOTOR2": {
+    foto: "img/MOTOR2.svg",
+    nombre: { es: "Motor redondo 3", en: "Round motor" },
+    dueno: "Raúl Campos",
+    area: { es: "Making", en: "Making" },
+    pasoAM: 3,
+    descripcion: {
+      es: "Motor giratorio tal tal tal",
+      en: "blablabla"
+    }
+  },
   "EMP-02": {
     foto: "img/emp-02.svg",
     nombre: { es: "Empacadora de cajas", en: "Case Packer" },
