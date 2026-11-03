@@ -28,6 +28,17 @@ window.EQUIPOS = {
       en: "blablabla"
     }
   },
+     "DIEGO MUÑOZ": {
+    foto: "img/munoz.png",
+    nombre: { es: "Diego Muñoz HS&E", en: "Diego Muñoz HS&E" },
+    dueno: "-",
+    area: { es: "MSG2 HS&E", en: "MSG2 HS&E" },
+    pasoAM: 0,
+    descripcion: {
+      es: "Process Engineer/SEAO - Band 1, experto en HS&E de MSG2",
+      en: "Process Engineer/SEAO - Band 1, HS&E expert of MSG2"
+    }
+  },
   "EMP-02": {
     foto: "img/emp-02.svg",
     nombre: { es: "Empacadora de cajas", en: "Case Packer" },
