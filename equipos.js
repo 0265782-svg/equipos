@@ -6,7 +6,7 @@
 //  "pasoAM" va de 0 a 7.
 
 window.EQUIPOS = {
-  "LLEN-01": {
+  "BOOSTER": {
     foto: "img/llen-01.svg",
     nombre: { es: "Llenadora línea 3", en: "Line 3 Filler" },
     dueno: "Andrea Vargas",
