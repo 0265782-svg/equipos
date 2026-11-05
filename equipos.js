@@ -174,7 +174,7 @@ window.EQUIPOS = {
 
     documentos: [
       { titulo: { es: "Diagrama del sistema de bombeo", en: "Pumping system diagram" }, url: "img/booster-diagrama-flujo.jpg", tipo: "img" },
-      { titulo: { es: "Mapa de seguridad (Rev. 2)", en: "Safety map (Rev. 2)" }, url: "docs/booster-mapa-seguridad.pdf", tipo: "pdf" },
+      { titulo: { es: "Mapa de seguridad (Rev. 2)", en: "Safety map (Rev. 2)" }, url: "img/4.2Mapa de seguridad de la booster mio 1.pdf", tipo: "pdf" },
       { titulo: { es: "Estándar de lubricación", en: "Lubrication standard" }, url: "docs/booster-estandar-lubricacion.pdf", tipo: "pdf" },
       { titulo: { es: "OPL #1 · Cómo funciona la bomba", en: "OPL #1 · How the pump works" }, url: "img/booster-opl-funcionamiento.jpg", tipo: "img" }
     ]
