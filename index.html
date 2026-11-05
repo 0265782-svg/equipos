@@ -2,114 +2,344 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ficha de equipo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#003DA5">
+<title>Ficha de equipo · Planta Vallejo</title>
 <style>
-  :root { --bg:#f4f6f9; --card:#fff; --text:#1d2430; --muted:#667085; --accent:#1f6feb; --line:#e3e7ee; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0f141b; --card:#18202b; --text:#e8edf3; --muted:#9aa6b5; --accent:#4c8dff; --line:#2a3442; } }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); }
-  header { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; max-width:640px; margin:0 auto; }
-  header h1 { font-size:15px; margin:0; color:var(--muted); font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
-  .lang { display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; }
-  .lang button { border:0; background:transparent; color:var(--muted); padding:6px 14px; font-weight:600; cursor:pointer; }
-  .lang button.on { background:var(--accent); color:#fff; }
-  main { max-width:640px; margin:0 auto; padding:0 16px 32px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
-  .card img { width:100%; aspect-ratio:16/10; object-fit:cover; display:block; background:var(--line); }
-  .body { padding:18px; }
-  .id { font-family:ui-monospace,Menlo,monospace; font-size:13px; color:var(--accent); }
-  h2 { margin:4px 0 14px; font-size:24px; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
-  .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
-  .value { font-size:16px; font-weight:600; margin-top:2px; }
-  .steps { display:flex; gap:4px; margin:6px 0 4px; }
-  .steps span { flex:1; height:10px; border-radius:4px; background:var(--line); }
-  .steps span.done { background:var(--accent); }
-  .desc { line-height:1.5; margin:0; }
-  .section { border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
-  .list a { display:block; padding:14px 16px; border-bottom:1px solid var(--line); color:var(--text); text-decoration:none; }
-  .list a:last-child { border-bottom:0; }
-  .list small { color:var(--muted); display:block; }
-  .error { padding:24px; text-align:center; color:var(--muted); }
+  :root{
+    --blue:#003DA5; --blue-dark:#002A75; --blue-soft:#E8EFFB; --blue-line:#C9D8F2;
+    --bg:#F3F6FB; --card:#FFFFFF; --text:#14213D; --muted:#5B6B86; --line:#E1E7F0;
+    --red:#D92D20; --red-soft:#FDECEA; --green:#16924A; --green-soft:#E7F6EC;
+    --amber:#B54708; --amber-soft:#FEF3E2;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:60px}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+
+  /* Barra superior */
+  .topbar{background:var(--blue);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,30,90,.25)}
+  .topbar-in{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+  .brand img{height:28px;width:auto}
+  .brand-txt{line-height:1.15;min-width:0}
+  .brand-txt b{display:block;font-size:15px;letter-spacing:.01em}
+  .brand-txt span{display:block;font-size:11px;opacity:.8;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lang{display:flex;background:rgba(255,255,255,.14);border-radius:999px;padding:3px}
+  .lang button{border:0;background:transparent;color:#fff;font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;cursor:pointer}
+  .lang button.on{background:#fff;color:var(--blue)}
+
+  /* Hero */
+  .hero{background:linear-gradient(180deg,var(--blue) 0,var(--blue) 70%,var(--bg) 70%)}
+  .hero-in{max-width:760px;margin:0 auto;padding:4px 16px 0}
+  .hero-card{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,40,110,.14)}
+  .hero-img{aspect-ratio:4/3;object-fit:cover;width:100%;background:var(--blue-soft)}
+  .hero-body{padding:16px 18px 18px}
+  .code{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--blue-soft);color:var(--blue);padding:4px 8px;border-radius:6px;font-weight:600}
+  h1{margin:8px 0 4px;font-size:26px;line-height:1.15;color:var(--blue-dark)}
+  .area{color:var(--muted);font-size:14px;margin:0}
+  .funcion{margin:12px 0 0;font-size:15px;line-height:1.45;padding:10px 12px;border-left:4px solid var(--blue);background:var(--blue-soft);border-radius:0 8px 8px 0}
+
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .tile{border:1px solid var(--line);border-radius:12px;padding:12px}
+  .label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .owner{display:flex;gap:10px;align-items:center;margin-top:6px}
+  .owner img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--blue-line)}
+  .owner b{display:block;font-size:15px}
+  .owner small{color:var(--muted);font-size:12px}
+  .am-num{font-size:28px;font-weight:800;color:var(--blue);line-height:1;margin-top:6px}
+  .am-num small{font-size:13px;color:var(--muted);font-weight:600}
+  .steps{display:flex;gap:3px;margin-top:8px}
+  .steps span{flex:1;height:8px;border-radius:3px;background:var(--line)}
+  .steps span.done{background:var(--blue)}
+  .steps span.now{background:var(--blue);box-shadow:0 0 0 2px var(--blue-line)}
+
+  /* Navegación de secciones */
+  .nav{max-width:760px;margin:14px auto 0;padding:0 16px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--blue);background:var(--card);border:1px solid var(--blue-line);padding:8px 12px;border-radius:999px}
+
+  main{max-width:760px;margin:0 auto;padding:12px 16px 40px}
+  section{background:var(--card);border-radius:16px;border:1px solid var(--line);margin-top:14px;overflow:hidden}
+  section>h2{margin:0;font-size:16px;padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);color:var(--blue-dark)}
+  section>h2 .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue);font-size:15px}
+  .sb{padding:14px 18px}
+  p{line-height:1.5;margin:0 0 10px}
+  .muted{color:var(--muted)}
+
+  ol.flow{margin:0;padding:0;list-style:none;counter-reset:f}
+  ol.flow li{counter-increment:f;position:relative;padding:0 0 14px 40px;line-height:1.45}
+  ol.flow li:before{content:counter(f);position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+  ol.flow li:not(:last-child):after{content:"";position:absolute;left:13px;top:28px;bottom:2px;width:2px;background:var(--blue-line)}
+
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .spec{background:var(--bg);border-radius:10px;padding:10px 12px}
+  .spec b{display:block;font-size:15px;margin-top:3px}
+
+  /* Seguridad */
+  .safety-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 8px}
+  .safety-h:first-child{margin-top:0}
+  .items{display:grid;gap:6px}
+  .it{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.35}
+  .badge{flex:none;min-width:28px;height:24px;padding:0 6px;border-radius:6px;display:grid;place-items:center;font-weight:800;font-size:12px;color:#fff}
+  .b-red{background:var(--red)} .b-green{background:var(--green)} .b-blue{background:var(--blue)}
+  .warn{background:var(--red-soft);color:#8a1c12;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;margin-bottom:12px}
+
+  /* CIL */
+  .cil{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .cil summary{list-style:none;cursor:pointer;padding:12px;display:flex;gap:10px;align-items:center}
+  .cil summary::-webkit-details-marker{display:none}
+  .cil .n{flex:none;width:30px;height:30px;border-radius:8px;background:var(--blue);color:#fff;font-weight:800;display:grid;place-items:center}
+  .cil .t{flex:1;min-width:0}
+  .cil .t b{display:block;font-size:15px}
+  .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+  .chip{font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;background:var(--blue-soft);color:var(--blue)}
+  .chip.run{background:var(--green-soft);color:var(--green)}
+  .chip.stop{background:var(--amber-soft);color:var(--amber)}
+  .cil .arr{color:var(--muted);transition:transform .2s}
+  .cil[open] .arr{transform:rotate(90deg)}
+  .cil .d{padding:0 12px 12px;display:grid;gap:8px}
+  .box{border-radius:8px;padding:9px 11px;font-size:14px;line-height:1.4}
+  .box .label{display:block;margin-bottom:3px}
+  .box.std{background:var(--blue-soft)}
+  .box.act{background:var(--green-soft)}
+  .box.why{background:var(--red-soft)}
+
+  /* Lubricación */
+  .lub{display:grid;gap:10px}
+  .lu{border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start}
+  .tag{grid-row:span 3;width:64px;border-radius:8px;color:#fff;font-weight:800;font-size:12px;text-align:center;padding:12px 4px}
+  .lu b{font-size:15px}
+  .lu .meta{font-size:13px;color:var(--muted);line-height:1.4}
+  .lu .kv{display:flex;flex-wrap:wrap;gap:6px}
+
+  .docs a{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--text);font-weight:600;font-size:14px}
+  .docs a:last-child{border-bottom:0}
+  .docs .di{flex:none;width:36px;height:36px;border-radius:8px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:11px;font-weight:800}
+  .zoom{border-radius:10px;border:1px solid var(--line);cursor:zoom-in}
+
+  footer{text-align:center;font-size:11px;color:var(--muted);padding:10px 16px 30px;max-width:760px;margin:0 auto}
+
+  /* Lista de equipos */
+  .list a{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--text)}
+  .list a:last-child{border-bottom:0}
+  .list img{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--blue-soft)}
+  .list small{display:block;color:var(--muted)}
+  .error{padding:30px 18px;text-align:center;color:var(--muted)}
+
+  /* Visor de imagen */
+  .lb{position:fixed;inset:0;background:rgba(0,10,30,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:12px}
+  .lb.on{display:flex}
+  .lb img{max-height:100%;max-width:100%;border-radius:8px;background:#fff}
+  .lb button{position:absolute;top:12px;right:12px;background:#fff;border:0;border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer}
+
+  @media (max-width:420px){ .row,.specs{grid-template-columns:1fr} h1{font-size:23px} }
 </style>
 </head>
 <body>
-<header>
-  <h1 id="titulo">Ficha de equipo</h1>
-  <div class="lang">
-    <button data-l="es">ES</button><button data-l="en">EN</button>
+
+<div class="topbar"><div class="topbar-in">
+  <div class="brand">
+    <!-- Si tienes el logo oficial, súbelo como img/logo.png y aparecerá aquí -->
+    <img src="img/logo.png" alt="" onerror="this.remove()">
+    <div class="brand-txt"><b>Planta Vallejo</b><span id="sub">Mantenimiento Autónomo</span></div>
   </div>
-</header>
-<main id="app"></main>
+  <div class="lang"><button data-l="es">ES</button><button data-l="en">EN</button></div>
+</div></div>
+
+<div id="app"></div>
+<footer id="foot"></footer>
+
+<div class="lb" id="lb"><button aria-label="Cerrar">×</button><img alt=""></div>
 
 <script src="equipos.js"></script>
 <script>
 const T = {
-  es: { titulo:"Ficha de equipo", dueno:"Dueño del equipo", area:"Área", paso:"Paso AM", desc:"Descripción",
-        de:"de", noExiste:"No se encontró el equipo", lista:"Equipos registrados" },
-  en: { titulo:"Equipment card", dueno:"Equipment owner", area:"Area", paso:"AM Step", desc:"Description",
-        de:"of", noExiste:"Equipment not found", lista:"Registered equipment" }
+  es:{sub:"Mantenimiento Autónomo", owner:"Dueño del equipo", am:"Paso AM", of:"de 7",
+      nav:{desc:"Descripción",seg:"Seguridad",cil:"CIL",lub:"Lubricación",docs:"Documentos"},
+      desc:"Descripción y funcionamiento", proc:"Proceso", specs:"Especificaciones",
+      seg:"Seguridad", peligros:"Fuentes de energía / peligros", disp:"Dispositivos de seguridad", epp:"EPP obligatorio",
+      warnLoto:"Antes de intervenir: aplica bloqueo (LOTO) en el interruptor local y usa tu EPP.",
+      cil:"CIL · Limpieza, Inspección, Lubricación", std:"Estándar de inspección", act:"Acción si hay anormalidad",
+      why:"Know-why · ¿Qué pasa si no se corrige?", run:"Corriendo", stop:"Parado", min:"min",
+      freq:{S:"Por turno",D:"Diario",W:"Semanal",F:"Quincenal",M:"Mensual",T:"Trimestral",A:"Anual"},
+      lub:"Estándar de lubricación", lubr:"Lubricante", punto:"Punto", cant:"Cantidad", frec:"Frecuencia",
+      docs:"Documentos", tapZoom:"Toca la imagen para ampliar",
+      notFound:"No se encontró el equipo", list:"Equipos registrados",
+      foot:"Uso interno · Información de Mantenimiento Autónomo"},
+  en:{sub:"Autonomous Maintenance", owner:"Equipment owner", am:"AM Step", of:"of 7",
+      nav:{desc:"Overview",seg:"Safety",cil:"CIL",lub:"Lubrication",docs:"Documents"},
+      desc:"Overview and operation", proc:"Process", specs:"Specifications",
+      seg:"Safety", peligros:"Energy sources / hazards", disp:"Safety devices", epp:"Required PPE",
+      warnLoto:"Before any intervention: apply lockout (LOTO) at the local disconnect and wear your PPE.",
+      cil:"CIL · Clean, Inspect, Lubricate", std:"Inspection standard", act:"Action if abnormal",
+      why:"Know-why · What happens if not corrected?", run:"Running", stop:"Stopped", min:"min",
+      freq:{S:"Every shift",D:"Daily",W:"Weekly",F:"Bi-weekly",M:"Monthly",T:"Quarterly",A:"Yearly"},
+      lub:"Lubrication standard", lubr:"Lubricant", punto:"Point", cant:"Amount", frec:"Frequency",
+      docs:"Documents", tapZoom:"Tap the image to enlarge",
+      notFound:"Equipment not found", list:"Registered equipment",
+      foot:"Internal use · Autonomous Maintenance information"}
 };
+
 const params = new URLSearchParams(location.search);
 const id = params.get("id");
-let lang = params.get("lang") || localStorage.getItem("lang") ||
-           (navigator.language || "es").slice(0,2);
+let lang = params.get("lang");
+if (!lang) { try { lang = localStorage.getItem("lang"); } catch(e){} }
+if (!lang) lang = (navigator.language || "es").slice(0,2);
 if (!T[lang]) lang = "es";
 
-const txt = v => (v && typeof v === "object") ? (v[lang] || v.es || "") : (v ?? "");
-const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const tx  = v => (v && typeof v === "object" && !Array.isArray(v)) ? (v[lang] ?? v.es ?? "") : (v ?? "");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const t$  = v => esc(tx(v));
 
-function render() {
+function sec(id, icon, title, body){
+  return `<section id="${id}"><h2><span class="ic">${icon}</span>${title}</h2><div class="sb">${body}</div></section>`;
+}
+
+function renderEquipo(e, key){
+  const t = T[lang];
+  const paso = Math.max(0, Math.min(7, Number(e.pasoAM) || 0));
+  const bars = Array.from({length:7},(_,i)=>`<span class="${i<paso-1?'done':i===paso-1?'now':''}"></span>`).join("");
+  const d = (typeof e.dueno === "object") ? e.dueno : { nombre: e.dueno };
+
+  let html = `
+  <div class="hero"><div class="hero-in"><div class="hero-card">
+    ${e.foto ? `<img class="hero-img" src="${esc(e.foto)}" alt="${t$(e.nombre)}">` : ""}
+    <div class="hero-body">
+      <span class="code">${esc(e.codigo || key)}</span>
+      <h1>${t$(e.nombre)}</h1>
+      ${e.area ? `<p class="area">${t$(e.area)}</p>` : ""}
+      ${e.funcion ? `<p class="funcion">${t$(e.funcion)}</p>` : ""}
+      <div class="row">
+        <div class="tile"><div class="label">${t.owner}</div>
+          <div class="owner">${d.foto ? `<img src="${esc(d.foto)}" alt="">` : ""}
+            <div><b>${esc(d.nombre || "—")}</b>${d.rol ? `<small>${t$(d.rol)}</small>` : ""}</div></div></div>
+        <div class="tile"><div class="label">${t.am}</div>
+          <div class="am-num">${paso} <small>${t.of}</small></div><div class="steps">${bars}</div></div>
+      </div>
+    </div>
+  </div></div></div>`;
+
+  // Navegación
+  const nav = [];
+  if (e.descripcion || e.funcionamiento || e.proceso || e.specs) nav.push(["desc", t.nav.desc]);
+  if (e.seguridad) nav.push(["seg", t.nav.seg]);
+  if (e.cil) nav.push(["cil", t.nav.cil]);
+  if (e.lubricacion) nav.push(["lub", t.nav.lub]);
+  if (e.documentos) nav.push(["docs", t.nav.docs]);
+  if (nav.length > 1) html += `<nav class="nav">${nav.map(([h,l])=>`<a href="#${h}">${l}</a>`).join("")}</nav>`;
+
+  html += `<main>`;
+
+  // Descripción
+  if (nav.some(n=>n[0]==="desc")) {
+    let b = "";
+    if (e.descripcion) b += `<p>${t$(e.descripcion)}</p>`;
+    if (e.funcionamiento) b += `<p>${t$(e.funcionamiento)}</p>`;
+    if (e.imagenFuncionamiento) b += `<img class="zoom" src="${esc(e.imagenFuncionamiento)}" alt=""><p class="muted" style="font-size:12px;margin-top:6px">${t.tapZoom}</p>`;
+    if (e.proceso) b += `<div class="safety-h" style="color:var(--blue)">${t.proc}</div><ol class="flow">${e.proceso.map(p=>`<li>${t$(p)}</li>`).join("")}</ol>`;
+    if (e.specs) b += `<div class="safety-h" style="color:var(--blue)">${t.specs}</div><div class="specs">${e.specs.map(s=>`<div class="spec"><span class="label">${t$(s.label)}</span><b>${t$(s.valor)}</b></div>`).join("")}</div>`;
+    html += sec("desc","ℹ",t.desc,b);
+  }
+
+  // Seguridad
+  if (e.seguridad) {
+    const s = e.seguridad;
+    const list = (arr,cls) => `<div class="items">${arr.map(x=>`<div class="it"><span class="badge ${cls}">${esc(x.id)}</span><span>${t$(x)}</span></div>`).join("")}</div>`;
+    let b = `<div class="warn">⚠ ${t.warnLoto}</div>`;
+    if (s.peligros) b += `<div class="safety-h" style="color:var(--red)">${t.peligros}</div>${list(s.peligros,"b-red")}`;
+    if (s.dispositivos) b += `<div class="safety-h" style="color:var(--green)">${t.disp}</div>${list(s.dispositivos,"b-green")}`;
+    if (s.epp) b += `<div class="safety-h" style="color:var(--blue)">${t.epp}</div>${list(s.epp,"b-blue")}`;
+    if (s.imagen) b += `<img class="zoom" style="margin-top:14px" src="${esc(s.imagen)}" alt=""><p class="muted" style="font-size:12px;margin-top:6px">${t.tapZoom}</p>`;
+    html += sec("seg","⚠",t.seg,b);
+  }
+
+  // CIL
+  if (e.cil) {
+    const b = e.cil.map((c,i)=>`
+      <details class="cil"${i===0?" open":""}>
+        <summary><span class="n">${esc(c.punto ?? i+1)}</span>
+          <span class="t"><b>${t$(c.componente)}</b>
+            <span class="chips">
+              ${c.frecuencia ? `<span class="chip">${esc(t.freq[c.frecuencia] || c.frecuencia)}</span>` : ""}
+              ${c.corriendo ? `<span class="chip ${c.corriendo==="R"?"run":"stop"}">${c.corriendo==="R"?t.run:t.stop}</span>` : ""}
+              ${c.minutos ? `<span class="chip">${esc(c.minutos)} ${t.min}</span>` : ""}
+              ${c.opl ? `<span class="chip">${esc(c.opl)}</span>` : ""}
+            </span></span>
+          <span class="arr">›</span></summary>
+        <div class="d">
+          ${c.estandar ? `<div class="box std"><span class="label">${t.std}</span>${t$(c.estandar)}</div>` : ""}
+          ${c.accion ? `<div class="box act"><span class="label">${t.act}</span>${t$(c.accion)}</div>` : ""}
+          ${c.knowWhy ? `<div class="box why"><span class="label">${t.why}</span>${t$(c.knowWhy)}</div>` : ""}
+        </div>
+      </details>`).join("");
+    html += sec("cil","✓",t.cil,b);
+  }
+
+  // Lubricación
+  if (e.lubricacion) {
+    const b = `<div class="lub">${e.lubricacion.map(l=>`
+      <div class="lu">
+        <div class="tag" style="background:${esc(l.color||"var(--blue)")}">${esc(l.etiqueta||"")}</div>
+        <b>${t$(l.componente)}</b>
+        <div class="meta">${t.lubr}: ${t$(l.lubricante)}<br>${t.punto}: ${t$(l.punto)}</div>
+        <div class="kv"><span class="chip">${t.cant}: ${t$(l.cantidad)}</span><span class="chip">${t$(l.frecuencia)}</span></div>
+      </div>`).join("")}</div>`;
+    html += sec("lub","🛢",t.lub,b);
+  }
+
+  // Documentos
+  if (e.documentos) {
+    const b = `<div class="docs">${e.documentos.map(d=>
+      `<a href="${esc(d.url)}" ${d.tipo==="img"?'data-img="1"':'target="_blank" rel="noopener"'}><span class="di">${d.tipo==="pdf"?"PDF":"IMG"}</span>${t$(d.titulo)}</a>`).join("")}</div>`;
+    html += sec("docs","📄",t.docs,b);
+  }
+
+  html += `</main>`;
+  document.title = `${tx(e.nombre)} · ${e.codigo || key}`;
+  return html;
+}
+
+function render(){
   const t = T[lang], app = document.getElementById("app");
   document.documentElement.lang = lang;
-  document.getElementById("titulo").textContent = t.titulo;
-  document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === lang));
+  document.getElementById("sub").textContent = t.sub;
+  document.getElementById("foot").textContent = t.foot;
+  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on", b.dataset.l===lang));
+  const E = window.EQUIPOS || {};
 
-  // Sin ID: muestra la lista de equipos
   if (!id) {
-    app.innerHTML = `<div class="card list"><div class="body"><h2>${t.lista}</h2></div>` +
-      Object.entries(window.EQUIPOS).map(([k,e]) =>
-        `<a href="?id=${encodeURIComponent(k)}&lang=${lang}"><b>${esc(txt(e.nombre))}</b><small>${esc(k)} · ${esc(e.dueno)}</small></a>`
-      ).join("") + `</div>`;
-    document.title = t.lista;
+    app.innerHTML = `<main><section><h2><span class="ic">≡</span>${t.list}</h2><div class="list">` +
+      Object.entries(E).map(([k,e])=>{
+        const d = (typeof e.dueno==="object") ? e.dueno.nombre : e.dueno;
+        return `<a href="?id=${encodeURIComponent(k)}&lang=${lang}">${e.foto?`<img src="${esc(e.foto)}" alt="">`:""}<span><b>${t$(e.nombre)}</b><small>${esc(e.codigo||k)} · ${esc(d||"")}</small></span></a>`;
+      }).join("") + `</div></section></main>`;
+    document.title = t.list;
     return;
   }
 
-  const e = window.EQUIPOS[id];
-  if (!e) { app.innerHTML = `<div class="card error">${t.noExiste}: <b>${esc(id)}</b></div>`; return; }
-
-  const paso = Math.max(0, Math.min(7, Number(e.pasoAM) || 0));
-  const barras = Array.from({length:7}, (_,i) => `<span class="${i < paso ? "done" : ""}"></span>`).join("");
-  document.title = `${txt(e.nombre)} · ${id}`;
-  app.innerHTML = `
-    <div class="card">
-      ${e.foto ? `<img src="${esc(e.foto)}" alt="${esc(txt(e.nombre))}">` : ""}
-      <div class="body">
-        <div class="id">${esc(id)}</div>
-        <h2>${esc(txt(e.nombre))}</h2>
-        <div class="grid">
-          <div><div class="label">${t.dueno}</div><div class="value">${esc(e.dueno)}</div></div>
-          <div><div class="label">${t.area}</div><div class="value">${esc(txt(e.area)) || "—"}</div></div>
-        </div>
-        <div class="label">${t.paso}</div>
-        <div class="steps">${barras}</div>
-        <div class="value">${paso} ${t.de} 7</div>
-        <div class="section">
-          <div class="label">${t.desc}</div>
-          <p class="desc">${esc(txt(e.descripcion))}</p>
-        </div>
-      </div>
-    </div>`;
+  const e = E[id] || E[id.toUpperCase()];
+  if (!e) { app.innerHTML = `<main><section><div class="error">${t.notFound}: <b>${esc(id)}</b></div></section></main>`; return; }
+  app.innerHTML = renderEquipo(e, id);
 }
 
-document.querySelectorAll(".lang button").forEach(b => b.onclick = () => {
+// Cambio de idioma
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{
   lang = b.dataset.l;
-  try { localStorage.setItem("lang", lang); } catch {}
+  try { localStorage.setItem("lang", lang); } catch(e){}
   const p = new URLSearchParams(location.search); p.set("lang", lang);
-  history.replaceState(null, "", "?" + p.toString());
+  history.replaceState(null, "", "?" + p.toString() + location.hash);
   render();
 });
+
+// Visor de imágenes
+const lb = document.getElementById("lb");
+document.addEventListener("click", ev=>{
+  const z = ev.target.closest(".zoom, a[data-img]");
+  if (z) { ev.preventDefault(); lb.querySelector("img").src = z.getAttribute("src") || z.getAttribute("href"); lb.classList.add("on"); return; }
+  if (ev.target === lb || ev.target.tagName === "BUTTON" && lb.contains(ev.target)) lb.classList.remove("on");
+});
+
 render();
 </script>
 </body>
