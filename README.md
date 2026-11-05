@@ -1,25 +1,27 @@
-# Fichas de equipo para NFC
+# Fichas de equipo NFC · Planta Vallejo (Mantenimiento Autónomo)
 
-## Probar en tu Mac
-Opción rápida: doble clic en `index.html` (muestra la lista de equipos).
-Para probar un equipo: `index.html?id=LLEN-01` o `index.html?id=LLEN-01&lang=en`.
+Cada máquina tiene una ficha que se abre al acercar el celular a su tag NFC:
+foto, código, dueño del equipo, paso AM, descripción, proceso, especificaciones,
+mapa de seguridad, CIL con know-why, estándar de lubricación y documentos.
+Todo en español e inglés (botón ES / EN).
 
-Opción con servidor local (más parecido a producción):
-    cd nfc-equipos
-    python3 -m http.server 8000
-y abre http://localhost:8000/?id=LLEN-01
+## Estructura
+- index.html → la página (no hace falta tocarla)
+- equipos.js → LOS DATOS de cada equipo (aquí editas)
+- img/ → fotos del equipo, del dueño, mapa de seguridad, diagramas
+- docs/ → PDFs (mapa de seguridad, estándar de lubricación…)
+- img/logo.png → (opcional) logo oficial; si existe aparece en la barra azul
 
-## Editar equipos
-Todo está en `equipos.js`. Copia un bloque, cambia el ID y los datos.
-Las fotos van en la carpeta `img/` (jpg, png o svg).
+## Agregar un equipo
+1. Sube su foto a img/ (nombre en minúsculas, ej. motor2.jpg).
+2. En equipos.js, al final hay una PLANTILLA: pon una coma después de la }
+   del equipo anterior y pega la plantilla sin las //.
+3. Solo "nombre" es obligatorio. Las secciones seguridad, cil, lubricacion,
+   documentos, specs y proceso aparecen solo si las agregas.
+4. Commit, espera 1–2 min y graba el NFC con:
+   https://0265782-svg.github.io/equipos/?id=MOTOR2
 
-## Publicar gratis en GitHub Pages
-1. Crea un repo en github.com (ej. `equipos`).
-2. Sube todos estos archivos (Add file → Upload files).
-3. Settings → Pages → Source: "Deploy from a branch" → main → / (root) → Save.
-4. Tu sitio queda en: https://TU_USUARIO.github.io/equipos/
-
-## Grabar el NFC
-App NFC Tools → Escribir → Añadir registro → URL:
-    https://TU_USUARIO.github.io/equipos/?id=LLEN-01
-Usa tags NTAG213 (anti-metal si van sobre la máquina).
+## Códigos del CIL
+- frecuencia: S = por turno, D = diario, W = semanal, F = quincenal,
+  M = mensual, T = trimestral, A = anual
+- corriendo: R = equipo corriendo, S = equipo parado
