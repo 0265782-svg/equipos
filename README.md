@@ -6,7 +6,7 @@ mapa de seguridad, CIL con know-why, estándar de lubricación y documentos.
 Todo en español e inglés (botón ES / EN).
 
 ## Estructura
-- index.html → la página (no hace falta tocarla)
+- index.html → la página (no hace falta tocarla)k
 - equipos.js → LOS DATOS de cada equipo (aquí editas)
 - img/ → fotos del equipo, del dueño, mapa de seguridad, diagramas
 - docs/ → PDFs (mapa de seguridad, estándar de lubricación…)
