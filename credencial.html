@@ -127,7 +127,9 @@ if (!id) {
       `<a href="?id=${encodeURIComponent(k)}"><b>${esc(u.nombre)}</b><small>${esc(u.puesto)} · ${esc(u.laptop)}</small></a>`
     ).join("") + `</div>`;
 } else {
-  const u = USUARIOS[id] || USUARIOS[id.toUpperCase()];
+  const norm = s => String(s).toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const key = Object.keys(USUARIOS).find(k => norm(k) === norm(id));
+  const u = key && USUARIOS[key];
   if (!u) {
     app.innerHTML = `<p class="error">No se encontró la credencial: <b>${esc(id)}</b></p>`;
   } else {
