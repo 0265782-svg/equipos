@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#003DA5">
+<title>Credencial · Planta Vallejo</title>
+<style>
+  :root{ --blue:#003DA5; --blue-dark:#002A75; --gold:#F2B705; --bg:#F3F6FB; --text:#14213D; --muted:#5B6B86; }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--text)}
+
+  /* ---------- Credencial ---------- */
+  #app{width:100%;display:flex;justify-content:center}
+  .wrap{width:min(640px,100%);container-type:inline-size}
+  .card{position:relative;width:100%;aspect-ratio:1.58/1;border-radius:4cqw;overflow:hidden;background:#fff;
+        box-shadow:0 12px 40px rgba(0,40,110,.22)}
+
+  /* Fondo con rombos suaves */
+  .card:before{content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(135deg,rgba(0,61,165,.035) 25%,transparent 25%) 0 0/9cqw 9cqw,
+      linear-gradient(225deg,rgba(0,61,165,.035) 25%,transparent 25%) 0 0/9cqw 9cqw,
+      linear-gradient(315deg,rgba(0,61,165,.035) 25%,transparent 25%) 0 0/9cqw 9cqw,
+      linear-gradient(45deg ,rgba(0,61,165,.035) 25%,transparent 25%) 0 0/9cqw 9cqw}
+
+  /* Banda superior azul con franja dorada en diagonal */
+  .band{position:absolute;left:0;top:0;width:100%;height:16cqw}
+  .band .gold{position:absolute;left:0;top:0;width:46cqw;height:100%;background:var(--gold);
+              clip-path:polygon(0 0,100% 0,82% 100%,0 100%)}
+  .band .blue{position:absolute;left:0;top:0;width:44cqw;height:100%;background:var(--blue);
+              clip-path:polygon(0 0,100% 0,81% 100%,0 100%)}
+  .band .right{position:absolute;right:0;top:0;width:62cqw;height:3.2cqw;background:var(--blue)}
+  .band .right2{position:absolute;right:0;top:3.2cqw;width:58cqw;height:1.2cqw;background:var(--gold)}
+  .logo{position:absolute;left:4cqw;top:2cqw;height:12cqw;width:auto;filter:drop-shadow(0 .6cqw 1.2cqw rgba(0,0,0,.35))}
+
+  /* Foto + código de barras */
+  .photo{position:absolute;left:5cqw;top:20cqw;width:29cqw;height:30cqw;background:var(--blue);padding:1.6cqw;border-radius:1cqw}
+  .photo img,.photo .ini{width:100%;height:100%;object-fit:cover;display:block;border-radius:.5cqw;background:#dfe7f5}
+  .photo .ini{display:grid;place-items:center;font-size:11cqw;font-weight:800;color:var(--blue)}
+  .barcode{position:absolute;left:5cqw;top:49.5cqw;width:29cqw;height:7.5cqw;background:var(--blue);padding:0 1.6cqw 1.4cqw;border-radius:0 0 1cqw 1cqw}
+  .barcode svg{width:100%;height:100%;display:block;background:#fff}
+
+  /* Datos */
+  .info{position:absolute;left:39cqw;right:4cqw;top:21.5cqw}
+  .title{margin:0 0 3cqw;font-size:4.9cqw;white-space:nowrap;font-weight:900;color:var(--blue-dark);letter-spacing:-.02em;line-height:1}
+  .name{font-size:5.2cqw;font-weight:800;line-height:1.1;margin:0}
+  .role{font-size:2.9cqw;color:var(--muted);margin:.8cqw 0 3.6cqw;font-weight:600;letter-spacing:.02em}
+  .lbl{font-size:2.6cqw;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)}
+  .val{margin-top:.6cqw;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;font-size:4.4cqw;letter-spacing:.04em;word-break:break-all;
+       border-left:1cqw solid var(--gold);padding-left:2cqw;line-height:1.15}
+
+  .foot{position:absolute;left:0;right:0;bottom:0;height:2.2cqw;background:var(--blue)}
+
+  .error{text-align:center;color:var(--muted)}
+  .list{background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,40,110,.12);overflow:hidden;width:min(480px,100%)}
+  .list h2{margin:0;padding:14px 18px;font-size:16px;color:var(--blue-dark);border-bottom:1px solid #e1e7f0}
+  .list a{display:block;padding:12px 18px;border-bottom:1px solid #e1e7f0;text-decoration:none;color:var(--text)}
+  .list a:last-child{border-bottom:0}
+  .list small{display:block;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+// ============================================================
+//  DATOS DE LAS CREDENCIALES
+//  El ID es lo que va en la URL:  credencial.html?id=RCAMPOS
+//  foto: archivo dentro de img/ (si no hay foto, salen sus iniciales)
+//  laptop: el ID / número de serie de la computadora
+// ============================================================
+const USUARIOS = {
+
+  "RCAMPOS": {
+    nombre: "Raúl Campos",
+    puesto: "Band 2, MSG-2",
+    laptop: "PONER-ID-AQUI",
+    foto:   "img/raul-campos.jpg"
+  }
+
+  // ---------- PLANTILLA PARA OTRA PERSONA ----------
+  // Pon una coma después de la } de arriba y pega esto (sin las //):
+  //
+  // "AVARGAS": {
+  //   nombre: "Andrea Vargas",
+  //   puesto: "Intern, MSG-2",
+  //   laptop: "ABC12345",
+  //   foto:   "img/andrea-vargas.jpg"
+  // }
+};
+
+// ---------- Código de barras (Code 39) ----------
+const C39 = {"0":"nnnwwnwnn","1":"wnnwnnnnw","2":"nnwwnnnnw","3":"wnwwnnnnn","4":"nnnwwnnnw","5":"wnnwwnnnn",
+"6":"nnwwwnnnn","7":"nnnwnnwnw","8":"wnnwnnwnn","9":"nnwwnnwnn","A":"wnnnnwnnw","B":"nnwnnwnnw","C":"wnwnnwnnn",
+"D":"nnnnwwnnw","E":"wnnnwwnnn","F":"nnwnwwnnn","G":"nnnnnwwnw","H":"wnnnnwwnn","I":"nnwnnwwnn","J":"nnnnwwwnn",
+"K":"wnnnnnnww","L":"nnwnnnnww","M":"wnwnnnnwn","N":"nnnnwnnww","O":"wnnnwnnwn","P":"nnwnwnnwn","Q":"nnnnnnwww",
+"R":"wnnnnnwwn","S":"nnwnnnwwn","T":"nnnnwnwwn","U":"wwnnnnnnw","V":"nwwnnnnnw","W":"wwwnnnnnn","X":"nwnnwnnnw",
+"Y":"wwnnwnnnn","Z":"nwwnwnnnn","-":"nwnnnnwnw",".":"wwnnnnwnn"," ":"nwwnnnwnn","*":"nwnnwnwnn"};
+function barcodeSVG(text){
+  const s = "*" + String(text).toUpperCase().replace(/[^0-9A-Z\-. ]/g,"-") + "*";
+  let x = 6, rects = "";
+  for (const ch of s){
+    const p = C39[ch];
+    for (let i=0;i<9;i++){
+      const w = p[i]==="w" ? 3 : 1;
+      if (i%2===0) rects += `<rect x="${x}" y="3" width="${w}" height="34"/>`;
+      x += w;
+    }
+    x += 1; // espacio entre caracteres
+  }
+  return `<svg viewBox="0 0 ${x+6} 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g fill="#111">${rects}</g></svg>`;
+}
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const iniciales = n => String(n||"").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+
+const id = new URLSearchParams(location.search).get("id");
+const app = document.getElementById("app");
+
+if (!id) {
+  app.innerHTML = `<div class="list"><h2>Credenciales</h2>` +
+    Object.entries(USUARIOS).map(([k,u]) =>
+      `<a href="?id=${encodeURIComponent(k)}"><b>${esc(u.nombre)}</b><small>${esc(u.puesto)} · ${esc(u.laptop)}</small></a>`
+    ).join("") + `</div>`;
+} else {
+  const u = USUARIOS[id] || USUARIOS[id.toUpperCase()];
+  if (!u) {
+    app.innerHTML = `<p class="error">No se encontró la credencial: <b>${esc(id)}</b></p>`;
+  } else {
+    document.title = `${u.nombre} · Credencial`;
+    app.innerHTML = `
+    <div class="wrap"><div class="card">
+      <div class="band"><div class="gold"></div><div class="blue"></div><div class="right"></div><div class="right2"></div></div>
+      <img class="logo" src="img/logo_pg.png" alt="P&amp;G" onerror="this.remove()">
+
+      <div class="photo">
+        ${u.foto ? `<img src="${esc(u.foto)}" alt="" onerror="this.outerHTML='<div class=&quot;ini&quot;>${esc(iniciales(u.nombre))}</div>'">`
+                 : `<div class="ini">${esc(iniciales(u.nombre))}</div>`}
+      </div>
+      <div class="barcode">${barcodeSVG(u.laptop)}</div>
+
+      <div class="info">
+        <h1 class="title">Credencial de equipo</h1>
+        <p class="name">${esc(u.nombre)}</p>
+        <p class="role">${esc(u.puesto)}</p>
+        <div class="lbl">ID de Laptop</div>
+        <div class="val">${esc(u.laptop)}</div>
+      </div>
+
+      <div class="foot"></div>
+    </div></div>`;
+  }
+}
+</script>
+</body>
+</html>
